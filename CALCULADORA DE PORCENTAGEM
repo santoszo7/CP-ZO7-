@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculadora de Porcentagem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+/* DESCRIÇÃO */
+.desc {
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 15px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #e2e8f0;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.tabs button.active {
+  background: #1e293b;
+  color: white;
+}
+
+/* INPUTS */
+.input-group {
+  margin-bottom: 12px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #475569;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+}
+
+.input-group input:focus {
+  border-color: #1e293b;
+  outline: none;
+}
+
+/* RESULTADO */
+.result {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* BOTÕES */
+button.calc {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #1e293b;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.clear {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+    <h1>Calculadora de Porcentagem</h1>
+
+    <div class="desc" id="descricao">
+      Descubra quanto é uma porcentagem de um valor.
+    </div>
+
+    <div class="tabs">
+      <button onclick="trocar(1)" class="active">Calcular %</button>
+      <button onclick="trocar(2)">Descobrir %</button>
+      <button onclick="trocar(3)">Aumento</button>
+      <button onclick="trocar(4)">Desconto</button>
+    </div>
+
+    <!-- CALC 1 -->
+    <div id="calc1">
+      <div class="input-group">
+        <label>Valor</label>
+        <input type="number" id="v1">
+      </div>
+
+      <div class="input-group">
+        <label>Porcentagem (%)</label>
+        <input type="number" id="p1">
+      </div>
+
+      <button class="calc" onclick="calc1()">Calcular</button>
+      <button class="clear" onclick="limpar(1)">Limpar</button>
+      <div class="result" id="r1">R$ 0,00</div>
+    </div>
+
+    <!-- CALC 2 -->
+    <div id="calc2" class="hidden">
+      <div class="input-group">
+        <label>Valor total</label>
+        <input type="number" id="v2">
+      </div>
+
+      <div class="input-group">
+        <label>Parte</label>
+        <input type="number" id="p2">
+      </div>
+
+      <button class="calc" onclick="calc2()">Calcular</button>
+      <button class="clear" onclick="limpar(2)">Limpar</button>
+      <div class="result" id="r2">0%</div>
+    </div>
+
+    <!-- CALC 3 -->
+    <div id="calc3" class="hidden">
+      <div class="input-group">
+        <label>Valor inicial</label>
+        <input type="number" id="v3">
+      </div>
+
+      <div class="input-group">
+        <label>Valor final</label>
+        <input type="number" id="f3">
+      </div>
+
+      <button class="calc" onclick="calc3()">Calcular</button>
+      <button class="clear" onclick="limpar(3)">Limpar</button>
+      <div class="result" id="r3">0%</div>
+    </div>
+
+    <!-- CALC 4 -->
+    <div id="calc4" class="hidden">
+      <div class="input-group">
+        <label>Valor original</label>
+        <input type="number" id="v4">
+      </div>
+
+      <div class="input-group">
+        <label>Desconto (%)</label>
+        <input type="number" id="d4">
+      </div>
+
+      <button class="calc" onclick="calc4()">Calcular</button>
+      <button class="clear" onclick="limpar(4)">Limpar</button>
+      <div class="result" id="r4">R$ 0,00</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+function trocar(n) {
+  let textos = [
+    "Descubra quanto é uma porcentagem de um valor.",
+    "Veja quantos % um valor representa do total.",
+    "Calcule o aumento percentual entre dois valores.",
+    "Calcule o desconto aplicado em um valor."
+  ];
+
+  document.getElementById("descricao").innerText = textos[n-1];
+
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById("calc" + i).classList.add("hidden");
+    document.querySelectorAll(".tabs button")[i-1].classList.remove("active");
+  }
+
+  document.getElementById("calc" + n).classList.remove("hidden");
+  document.querySelectorAll(".tabs button")[n-1].classList.add("active");
+}
+
+// LIMPAR
+function limpar(n){
+  let inputs = document.querySelectorAll("#calc"+n+" input");
+  inputs.forEach(i => i.value = "");
+
+  document.getElementById("r"+n).innerText =
+    (n === 1 || n === 4) ? "R$ 0,00" : "0%";
+}
+
+// CALCULOS
+function calc1() {
+  let v = v1.value, p = p1.value;
+  r1.innerText = "R$ " + ((v * p)/100).toFixed(2);
+}
+
+function calc2() {
+  let total = v2.value, parte = p2.value;
+  r2.innerText = ((parte/total)*100).toFixed(2) + "%";
+}
+
+function calc3() {
+  let ini = v3.value, fim = f3.value;
+  r3.innerText = (((fim-ini)/ini)*100).toFixed(2) + "%";
+}
+
+function calc4() {
+  let v = v4.value, d = d4.value;
+  r4.innerText = "R$ " + (v - (v*d/100)).toFixed(2);
+}
+
+</script>
+
+</body>
+</html>
